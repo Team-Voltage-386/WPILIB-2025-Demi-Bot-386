@@ -20,7 +20,20 @@ public class FlywheelIOSim implements FlywheelIO {
     inputs.shotSpeed = MetersPerSecond.of(flywheelSpeed.in(RPM) / 6000 * 12);
 
     // allows to add logic later to gradually increment applied voltage until it reaches setpoint
-    inputs.outputVoltage = outputVoltage;
+    // only here to visualize in simulation
+    if (outputVoltage >= 0) {
+      if (inputs.outputVoltage < outputVoltage) {
+        inputs.outputVoltage += 0.1;
+      } else {
+        inputs.outputVoltage -= 0.1;
+      }
+    } else {
+      if (inputs.outputVoltage > outputVoltage) {
+        inputs.outputVoltage -= 0.1;
+      } else {
+        inputs.outputVoltage += 0.1;
+      }
+    }
 
     Logger.recordOutput("/Shooter/Flywheel/VoltageSetpoint", outputVoltage);
     Logger.recordOutput("/Shooter/Flywheel/AppliedOutput", inputs.outputVoltage);

@@ -21,6 +21,7 @@ public class FlywheelIOTalonSRX implements FlywheelIO {
     flywheelConfig = new TalonSRXConfiguration();
     flywheelConfig.peakCurrentLimit = currentLimit;
     flywheelConfig.continuousCurrentLimit = currentLimit - 15;
+    flywheelConfig.voltageCompSaturation = 12.0;
     tryUntilOkV5(5, () -> flywheelMotor.configAllSettings(flywheelConfig));
     flywheelMotor.setInverted(flywheelInverted);
   }
@@ -51,6 +52,7 @@ public class FlywheelIOTalonSRX implements FlywheelIO {
   /** Set the Flywheel to the specific speed. */
   public void testFlywheelVoltage(double volts) {
     outputVoltage = volts;
+    // OK to just divide by 12 because voltage compensation is enabled
     flywheelMotor.set(TalonSRXControlMode.PercentOutput, volts / 12.0);
   }
 }
