@@ -14,12 +14,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.ShooterCommands;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.DriveIO;
 import frc.robot.subsystems.drive.DriveIOSim;
 import frc.robot.subsystems.drive.DriveIOTalonSRX;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
+import frc.robot.subsystems.shooter.FlywheelIOTalonSRX;
+import frc.robot.subsystems.shooter.Shooter;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -31,6 +34,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Shooter shooter;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -44,6 +48,7 @@ public class RobotContainer {
       case REAL:
         // Real robot, instantiate hardware IO implementations
         drive = new Drive(new DriveIOTalonSRX(), new GyroIOPigeon2());
+        shooter = new Shooter(new FlywheelIOTalonSRX());
         break;
 
       case SIM:
@@ -89,6 +94,11 @@ public class RobotContainer {
     drive.setDefaultCommand(
         DriveCommands.tankDrive(
             drive, () -> -controller.getLeftY(), () -> -controller.getRightY()));
+
+    // Default command for shooter
+    shooter.setDefaultCommand(
+        ShooterCommands.constantShooter(shooter, () -> controller.rightTrigger().getAsBoolean()));
+    // controller.rightTrigger().whileTrue(ShooterCommands.constantShooter(true));
   }
 
   /**

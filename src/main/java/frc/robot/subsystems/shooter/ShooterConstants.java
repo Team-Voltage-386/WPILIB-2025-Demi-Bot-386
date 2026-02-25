@@ -9,4 +9,5 @@ public class ShooterConstants {
   // FLywheel Motor configuration
   public static final int flywheelCurrentLimit = 60;
   public static final boolean flywheelInverted = false;
+  public static final double flywheelConstantVoltage = 6.0;
 }
