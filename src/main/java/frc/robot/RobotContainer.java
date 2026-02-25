@@ -25,6 +25,7 @@ import frc.robot.subsystems.flywheel.Flywheel;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOSim;
 import frc.robot.subsystems.flywheel.FlywheelIOTalonSRX;
+import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -110,6 +111,7 @@ public class RobotContainer {
             new InstantCommand(
                 () -> {
                   flywheelVoltage = 2.0;
+                  Logger.recordOutput("/Shooter/Flywheel/ButtonSetpoint", flywheelVoltage);
                 }));
     controller
         .b()
@@ -117,6 +119,7 @@ public class RobotContainer {
             new InstantCommand(
                 () -> {
                   flywheelVoltage = 4.0;
+                  Logger.recordOutput("/Shooter/Flywheel/ButtonSetpoint", flywheelVoltage);
                 }));
     controller
         .x()
@@ -124,6 +127,7 @@ public class RobotContainer {
             new InstantCommand(
                 () -> {
                   flywheelVoltage = 6.0;
+                  Logger.recordOutput("/Shooter/Flywheel/ButtonSetpoint", flywheelVoltage);
                 }));
     controller
         .y()
@@ -131,6 +135,7 @@ public class RobotContainer {
             new InstantCommand(
                 () -> {
                   flywheelVoltage = 8.0;
+                  Logger.recordOutput("/Shooter/Flywheel/ButtonSetpoint", flywheelVoltage);
                 }));
 
     controller
