@@ -110,7 +110,7 @@ public class RobotContainer {
         .onTrue(
             new InstantCommand(
                 () -> {
-                  flywheelVoltage = 2.0;
+                  flywheelVoltage = 6.0;
                   Logger.recordOutput("/Shooter/Flywheel/ButtonSetpoint", flywheelVoltage);
                 }));
     controller
@@ -118,7 +118,7 @@ public class RobotContainer {
         .onTrue(
             new InstantCommand(
                 () -> {
-                  flywheelVoltage = 4.0;
+                  flywheelVoltage = 8.0;
                   Logger.recordOutput("/Shooter/Flywheel/ButtonSetpoint", flywheelVoltage);
                 }));
     controller
@@ -126,15 +126,7 @@ public class RobotContainer {
         .onTrue(
             new InstantCommand(
                 () -> {
-                  flywheelVoltage = 6.0;
-                  Logger.recordOutput("/Shooter/Flywheel/ButtonSetpoint", flywheelVoltage);
-                }));
-    controller
-        .y()
-        .onTrue(
-            new InstantCommand(
-                () -> {
-                  flywheelVoltage = 8.0;
+                  flywheelVoltage = 10.0;
                   Logger.recordOutput("/Shooter/Flywheel/ButtonSetpoint", flywheelVoltage);
                 }));
 
