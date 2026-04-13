@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.subsystems.LightSubsystem;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.DriveIO;
 import frc.robot.subsystems.drive.DriveIOSim;
@@ -36,6 +37,8 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  */
 public class RobotContainer {
   // Subsystems
+  private final LightSubsystem ledLights = new LightSubsystem();
+
   private final Drive drive;
   // Subsystems
   private Flywheel flywheel;
@@ -49,26 +52,29 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    ledLights.setToColor(0, 200, 0, 0);
+    ledLights.setToColor(1, 0, 0, 200);
+    ledLights.setToColor(2, 0, 200, 0);
+    ledLights.setToColor(3, 200, 200, 0);
+    ledLights.setToColor(3, 0, 200, 200);
+
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
         drive = new Drive(new DriveIOTalonSRX(), new GyroIOPigeon2());
         flywheel = new Flywheel(new FlywheelIOTalonSRX());
-
         break;
 
       case SIM:
         // Sim robot, instantiate physics sim IO implementations
         drive = new Drive(new DriveIOSim(), new GyroIO() {});
         flywheel = new Flywheel(new FlywheelIOSim());
-
         break;
 
       default:
         // Replayed robot, disable IO implementations
         drive = new Drive(new DriveIO() {}, new GyroIO() {});
         flywheel = new Flywheel(new FlywheelIO() {});
-
         break;
     }
 
@@ -108,11 +114,14 @@ public class RobotContainer {
     controller
         .a()
         .onTrue(
-            new InstantCommand(
+            (new InstantCommand(
                 () -> {
                   flywheelVoltage = 6.0;
                   Logger.recordOutput("/Shooter/Flywheel/ButtonSetpoint", flywheelVoltage);
-                }));
+                  ledLights.changeAllLEDColor(255, 0, 0);
+                  System.out.println("Set voltage A: 6.0 Volts");
+                })));
+
     controller
         .b()
         .onTrue(
@@ -120,6 +129,8 @@ public class RobotContainer {
                 () -> {
                   flywheelVoltage = 8.0;
                   Logger.recordOutput("/Shooter/Flywheel/ButtonSetpoint", flywheelVoltage);
+                  ledLights.changeAllLEDColor(0, 255, 0);
+                  System.out.println("Set voltage B: 8.0 Volts");
                 }));
     controller
         .x()
@@ -128,6 +139,19 @@ public class RobotContainer {
                 () -> {
                   flywheelVoltage = 10.0;
                   Logger.recordOutput("/Shooter/Flywheel/ButtonSetpoint", flywheelVoltage);
+                  ledLights.changeAllLEDColor(0, 0, 255);
+                  System.out.println("Set voltage X: 10.0 Volts");
+                }));
+
+    controller
+        .y()
+        .onTrue(
+            new InstantCommand(
+                () -> {
+                  flywheelVoltage = 12.0;
+                  Logger.recordOutput("/Shooter/Flywheel/ButtonSetpoint", flywheelVoltage);
+                  ledLights.changeAllLEDColor(255, 255, 0);
+                  System.out.println("Set voltage Y: 12.0 Volts");
                 }));
 
     controller
